@@ -1,4 +1,4 @@
-import Image from "next/image"
+import Image, { type StaticImageData } from "next/image"
 
 import { cn } from "@/lib/utils"
 
@@ -12,15 +12,12 @@ import { cn } from "@/lib/utils"
 export function Shot({
   src,
   alt,
-  width,
-  height,
   priority,
   className,
 }: {
-  src: string
+  /** Imported, not a path: the dimensions come with it and the URL carries a content hash. */
+  src: StaticImageData
   alt: string
-  width: number
-  height: number
   priority?: boolean
   className?: string
 }) {
@@ -40,8 +37,6 @@ export function Shot({
         <Image
           src={src}
           alt={alt}
-          width={width}
-          height={height}
           priority={priority}
           sizes="(max-width: 768px) 100vw, 1152px"
           className="w-full rounded-lg sm:rounded-xl"

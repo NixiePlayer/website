@@ -59,7 +59,7 @@ type Detected = { mac: boolean; arch: Arch }
 
 export function Download({ release }: { release: LatestRelease | null }) {
   // ponytail: the first render assumes an Apple silicon Mac, which is both the common case and
-  // the safe one — an Apple silicon Mac runs the Intel build under Rosetta, while an Intel Mac
+  // the safe one: an Apple silicon Mac runs the Intel build under Rosetta, while an Intel Mac
   // cannot open the arm64 build at all. Server-side detection would need headers() and would
   // cost the page its static rendering, for a guess this component already names on the button.
   const [detected, setDetected] = useState<Detected>({ mac: true, arch: "arm" })

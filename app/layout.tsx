@@ -8,7 +8,7 @@ import { SITE_URL } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
 // Three faces, three jobs: Instrument Sans sets headlines, Inter sets prose and matches the
-// app's own face, DM Mono sets every measured value on the site — LUFS targets, versions,
+// app's own face, DM Mono sets every measured value on the site: LUFS targets, versions,
 // file sizes, dB.
 const display = Instrument_Sans({
   subsets: ["latin"],
@@ -27,20 +27,21 @@ const mono = DM_Mono({
 })
 
 const description =
-  "Nixie is a desktop client for YouTube Music on macOS. Gapless playback, loudness normalization you can set, and time-synced lyrics. Free, MIT licensed, no telemetry."
+  "Nixie is a desktop client for YouTube Music on macOS. Loudness normalization you can set, time-synced lyrics, and a session that comes back where you left it. Free, MIT licensed, no telemetry."
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Nixie — a desktop client for YouTube Music",
-    template: "%s — Nixie",
+    default: "Nixie: a desktop client for YouTube Music",
+    template: "%s · Nixie",
   },
   description,
   applicationName: "Nixie",
+  // Relative, so every route inherits this and resolves it against its own path.
+  alternates: { canonical: "./" },
   keywords: [
     "YouTube Music desktop",
     "YouTube Music client macOS",
-    "gapless playback",
     "loudness normalization",
     "LUFS",
     "synced lyrics",
@@ -48,14 +49,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Nixie",
-    title: "Nixie — a desktop client for YouTube Music",
+    title: "Nixie: a desktop client for YouTube Music",
     description,
     url: SITE_URL,
     images: [{ url: "/og.png", width: 2400, height: 600, alt: "Nixie" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nixie — a desktop client for YouTube Music",
+    title: "Nixie: a desktop client for YouTube Music",
     description,
     images: ["/og.png"],
   },

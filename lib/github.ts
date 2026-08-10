@@ -1,6 +1,6 @@
-import { unstable_cache } from "next/cache"
+import { cacheLife } from "next/cache"
 
-import { REPO, REVALIDATE, type LatestRelease, type Release } from "@/lib/site"
+import { REPO, type LatestRelease, type Release } from "@/lib/site"
 
 type ApiAsset = { name: string; size: number; browser_download_url: string }
 type ApiRelease = {
@@ -18,6 +18,9 @@ type ApiRelease = {
  * rate-limited or renamed endpoint should degrade the page, not break the build. The token is
  * optional: it is only needed while the repo is private, and the site's handful of hourly
  * requests sit well inside the anonymous limit once it is public.
+ *
+ * No cache options here: every caller is a "use cache" function, and a fetch inside that scope
+ * is covered by the caller's own lifetime.
  */
 async function gh<T>(path: string, accept: string): Promise<T | null> {
   const token = process.env.GITHUB_TOKEN
@@ -29,7 +32,6 @@ async function gh<T>(path: string, accept: string): Promise<T | null> {
         "X-GitHub-Api-Version": "2022-11-28",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
-      next: { revalidate: REVALIDATE },
     })
 
     if (!res.ok) return null
@@ -44,36 +46,37 @@ async function gh<T>(path: string, accept: string): Promise<T | null> {
 
 /**
  * Release notes are markdown, and the only way to render them the way GitHub does is GitHub's
- * own endpoint. That endpoint is a POST, which Next's fetch cache does not cover, so the result
- * is cached here instead — otherwise every request to /changelog would spend an API call.
+ * own endpoint. That endpoint is a POST, which no fetch cache covers, so the result is cached
+ * here instead, otherwise every regeneration of /changelog would spend one API call per release.
+ *
+ * The cache key is the note text itself and a published release never rewrites its notes, so
+ * this outlives the hourly release list by design.
  */
-const renderMarkdown = unstable_cache(
-  async (text: string): Promise<string | null> => {
-    if (!text.trim()) return null
+async function renderMarkdown(text: string): Promise<string | null> {
+  "use cache"
+  cacheLife("max")
 
-    try {
-      const res = await fetch("https://api.github.com/markdown", {
-        method: "POST",
-        headers: {
-          Accept: "application/vnd.github+json",
-          "Content-Type": "application/json",
-          "X-GitHub-Api-Version": "2022-11-28",
-          ...(process.env.GITHUB_TOKEN
-            ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` }
-            : {}),
-        },
-        body: JSON.stringify({ text, mode: "gfm", context: REPO }),
-        cache: "no-store",
-      })
+  if (!text.trim()) return null
 
-      return res.ok ? await res.text() : null
-    } catch {
-      return null
-    }
-  },
-  ["github-markdown"],
-  { revalidate: REVALIDATE }
-)
+  try {
+    const res = await fetch("https://api.github.com/markdown", {
+      method: "POST",
+      headers: {
+        Accept: "application/vnd.github+json",
+        "Content-Type": "application/json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        ...(process.env.GITHUB_TOKEN
+          ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` }
+          : {}),
+      },
+      body: JSON.stringify({ text, mode: "gfm", context: REPO }),
+    })
+
+    return res.ok ? await res.text() : null
+  } catch {
+    return null
+  }
+}
 
 async function toRelease(r: ApiRelease): Promise<Release> {
   return {
@@ -93,6 +96,9 @@ async function toRelease(r: ApiRelease): Promise<Release> {
  * block that can only offer one architecture is worse than one that sends you to GitHub.
  */
 export async function getLatestRelease(): Promise<LatestRelease | null> {
+  "use cache"
+  cacheLife("github")
+
   const release = await gh<ApiRelease>(
     `/repos/${REPO}/releases/latest`,
     "application/json"
@@ -113,6 +119,9 @@ export async function getLatestRelease(): Promise<LatestRelease | null> {
 
 /** Every release, newest first, for the changelog. */
 export async function getReleases(): Promise<Release[]> {
+  "use cache"
+  cacheLife("github")
+
   const releases = await gh<ApiRelease[]>(
     `/repos/${REPO}/releases?per_page=100`,
     "application/json"
@@ -123,7 +132,7 @@ export async function getReleases(): Promise<Release[]> {
 }
 
 /**
- * Every document opens with an h1 naming itself — "Privacy", "Security" — and the page that
+ * Every document opens with an h1 naming itself ("Privacy", "Security"), and the page that
  * renders it has already said the same word in its own h1. Dropping GitHub's leaves one h1 per
  * page. Hiding it in CSS would not do: it would still be in the document for a crawler to read.
  *
@@ -143,6 +152,9 @@ function stripLeadingHeading(html: string): string {
  * why the site carries no markdown parser.
  */
 export async function getRenderedDoc(path: string): Promise<string | null> {
+  "use cache"
+  cacheLife("github")
+
   const html = await gh<string>(
     `/repos/${REPO}/contents/${path}`,
     "application/vnd.github.html"

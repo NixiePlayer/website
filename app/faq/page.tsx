@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
-import { LICENCE_URL, PLATFORMS_URL, REPO_URL, SPONSOR_URL } from "@/lib/site"
+import { LICENSE_URL, PLATFORMS_URL, REPO_URL, SPONSOR_URL } from "@/lib/site"
 
 export const metadata: Metadata = {
   title: "FAQ",
@@ -50,7 +50,7 @@ const groups = [
           <p>
             Nothing. Nixie is free and{" "}
             <a
-              href={LICENCE_URL}
+              href={LICENSE_URL}
               className="text-primary underline decoration-1 underline-offset-4"
             >
               MIT licensed
@@ -73,7 +73,7 @@ const groups = [
         a: (
           <p>
             Apple silicon and Intel Macs, with a signed and notarized build for
-            each. Windows and Linux are planned but have no date attached —{" "}
+            each. Windows and Linux are planned but have no date attached,{" "}
             <a
               href={PLATFORMS_URL}
               className="text-primary underline decoration-1 underline-offset-4"
@@ -179,7 +179,7 @@ const groups = [
         q: "What does loudness normalization actually do?",
         a: (
           <p>
-            It brings every track to a target you choose — -19, -14 or -11 LUFS,
+            It brings every track to a target you choose: -19, -14 or -11 LUFS,
             or off. Nixie reads the integrated loudness YouTube already measured
             for each stream, so there is no analysis pass and no delay before a
             track starts. Loud tracks are pulled all the way down. Quiet ones
@@ -216,12 +216,12 @@ const groups = [
         a: (
           <p>
             No. There is no account, no backend, no telemetry, no analytics and
-            no crash uploader. Everything Nixie knows stays on your computer —{" "}
+            no crash uploader. Everything Nixie knows stays on your computer.{" "}
             <Link
               href="/privacy"
               className="text-primary underline decoration-1 underline-offset-4"
             >
-              the privacy document
+              The privacy document
             </Link>{" "}
             lists exactly what is stored and what leaves the machine.
           </p>
@@ -238,7 +238,7 @@ const groups = [
             >
               All of it
             </a>
-            , under the MIT licence. Every build also ships the full licence
+            , under the MIT license. Every build also ships the full license
             text of every open source package inside it, readable in Settings
             under About.
           </p>

@@ -9,7 +9,7 @@ export const REPO = "NixiePlayer/NixieDesktop"
 export const REPO_URL = `https://github.com/${REPO}`
 export const RELEASES_URL = `${REPO_URL}/releases`
 export const LATEST_RELEASE_URL = `${RELEASES_URL}/latest`
-export const LICENCE_URL = `${REPO_URL}/blob/main/LICENSE`
+export const LICENSE_URL = `${REPO_URL}/blob/main/LICENSE`
 export const SPONSOR_URL = "https://github.com/sponsors/TheEdoRan"
 
 // ponytail: no tracking issue exists for Windows and Linux yet, so "planned" points at the
@@ -17,9 +17,6 @@ export const SPONSOR_URL = "https://github.com/sponsors/TheEdoRan"
 export const PLATFORMS_URL = `${REPO_URL}/issues`
 
 export const blobUrl = (path: string) => `${REPO_URL}/blob/main/${path}`
-
-/** Seconds between regenerations of any page built from GitHub data. */
-export const REVALIDATE = 3600
 
 export type Asset = { url: string; size: number }
 

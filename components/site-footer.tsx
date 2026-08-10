@@ -1,10 +1,17 @@
+import type { Route } from "next"
 import Link from "next/link"
 
-import { LICENCE_URL, REPO_URL, SPONSOR_URL } from "@/lib/site"
+import { LICENSE_URL, REPO_URL, SPONSOR_URL } from "@/lib/site"
 
-const columns = [
+// External links are flagged rather than detected from the href, so the internal ones stay
+// plain route literals and a typo in one is a type error.
+type FooterLink =
+  | { label: string; href: Route }
+  | { label: string; href: string; external: true }
+
+const columns: { heading: string; links: FooterLink[] }[] = [
   {
-    heading: "The app",
+    heading: "Product",
     links: [
       { href: "/#download", label: "Download" },
       { href: "/#features", label: "Features" },
@@ -13,19 +20,19 @@ const columns = [
     ],
   },
   {
-    heading: "The details",
+    heading: "Legal",
     links: [
       { href: "/privacy", label: "Privacy" },
       { href: "/security", label: "Security" },
-      { href: LICENCE_URL, label: "MIT licence" },
+      { href: LICENSE_URL, label: "MIT license", external: true },
     ],
   },
   {
-    heading: "The project",
+    heading: "Project",
     links: [
-      { href: REPO_URL, label: "Source on GitHub" },
-      { href: `${REPO_URL}/issues`, label: "Report a bug" },
-      { href: SPONSOR_URL, label: "Sponsor" },
+      { href: REPO_URL, label: "Source on GitHub", external: true },
+      { href: `${REPO_URL}/issues`, label: "Report a bug", external: true },
+      { href: SPONSOR_URL, label: "Sponsor", external: true },
     ],
   },
 ]
@@ -43,20 +50,20 @@ export function SiteFooter() {
               <ul className="space-y-2.5 text-sm">
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    {link.href.startsWith("/") ? (
-                      <Link
-                        href={link.href}
-                        className="transition-colors hover:text-primary"
-                      >
-                        {link.label}
-                      </Link>
-                    ) : (
+                    {"external" in link ? (
                       <a
                         href={link.href}
                         className="transition-colors hover:text-primary"
                       >
                         {link.label}
                       </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="transition-colors hover:text-primary"
+                      >
+                        {link.label}
+                      </Link>
                     )}
                   </li>
                 ))}

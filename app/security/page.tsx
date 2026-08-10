@@ -2,10 +2,6 @@ import type { Metadata } from "next"
 
 import { RepoDoc } from "@/components/repo-doc"
 
-// Next requires this to be a literal, so it cannot read REVALIDATE from lib/site. Keep the two
-// in step: one hour.
-export const revalidate = 3600
-
 export const metadata: Metadata = {
   title: "Security",
   description:

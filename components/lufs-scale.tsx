@@ -3,7 +3,7 @@
  *
  * The numbers are the real ones: the three targets Nixie offers, and two tracks arriving at the
  * loudness YouTube measured for them. The quiet track deliberately stops short of the target,
- * because Nixie never lifts a track by more than 6 dB — YouTube publishes a loudness and not a
+ * because Nixie never lifts a track by more than 6 dB: YouTube publishes a loudness and not a
  * true peak, so a quiet master already peaking near full scale would clip if it were lifted
  * blind. A graphic that landed both bars neatly on the line would be a nicer picture and a lie.
  */

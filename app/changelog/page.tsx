@@ -4,10 +4,6 @@ import type { Metadata } from "next"
 import { getReleases } from "@/lib/github"
 import { formatDate, RELEASES_URL } from "@/lib/site"
 
-// Next requires this to be a literal, so it cannot read REVALIDATE from lib/site. Keep the two
-// in step: one hour.
-export const revalidate = 3600
-
 export const metadata: Metadata = {
   title: "Changelog",
   description: "Every Nixie release, and what changed in it.",

@@ -1,6 +1,9 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react"
 import Link from "next/link"
 
+import explore from "@/assets/explore.png"
+import home from "@/assets/home.png"
+import lyrics from "@/assets/lyrics.png"
 import { Download } from "@/components/download"
 import { LufsScale } from "@/components/lufs-scale"
 import { Shot } from "@/components/shot"
@@ -13,15 +16,10 @@ import {
   SPONSOR_URL,
 } from "@/lib/site"
 
-// Next requires this to be a literal, so it cannot read REVALIDATE from lib/site. Keep the two
-// in step: one hour.
-export const revalidate = 3600
-
 const featureGroups = [
   {
     heading: "Playback",
     items: [
-      "Gapless playback on two audio decks. The handoff is armed before the boundary rather than triggered at the end of a track, so joins hold even on a minimized window.",
       "Loudness normalization at -19, -14 or -11 LUFS, or off.",
       "A volume slider that behaves like your ears do, not like a gain multiplier.",
       "Queue with play next, add to queue, reorder and remove. Repeat off, all or one. Shuffle.",
@@ -66,24 +64,6 @@ const featureGroups = [
   },
 ]
 
-// The preconditions and the promises, as facts rather than prose. macOS 12 is the minimum the
-// built app declares (LSMinimumSystemVersion in the Electron bundle it ships).
-const spec = [
-  {
-    heading: "Requires",
-    items: ["macOS 12 or later", "YouTube Music Premium"],
-  },
-  {
-    heading: "Included",
-    items: [
-      "Signed and notarized",
-      "Automatic updates",
-      "No account, no telemetry",
-      "MIT licensed",
-    ],
-  },
-]
-
 const restored = [
   "the queue",
   "the current track",
@@ -100,70 +80,44 @@ export default async function Page() {
     <>
       {/* Hero */}
       <section className="mx-auto max-w-6xl px-6 pt-16 pb-14 sm:pt-24">
-        <p className="mb-6 label text-muted-foreground">
-          macOS · Beta{release ? ` · ${release.version}` : ""}
-        </p>
-
         <h1 className="headline text-[clamp(2.5rem,7.5vw,4.75rem)] leading-[0.95]">
           Same loudness<span className="text-primary">.</span>
           <br />
-          No gaps<span className="text-primary">.</span>
+          Same place you left it<span className="text-primary">.</span>
           <br />
           Lyrics that keep up<span className="text-primary">.</span>
         </h1>
 
-        <div className="mt-9 grid gap-12 lg:grid-cols-[minmax(0,1fr)_14rem] lg:gap-16">
-          <div>
-            <p className="max-w-2xl text-lg leading-relaxed sm:text-xl">
-              Nixie plays your YouTube Music account through a native macOS app
-              instead of a browser tab. Free, MIT licensed, and nothing about
-              your listening leaves the machine.
-            </p>
+        <p className="mt-9 max-w-2xl text-lg leading-relaxed sm:text-xl">
+          Nixie plays your YouTube Music account through a native macOS app
+          instead of a browser tab. Free, MIT licensed, and nothing about your
+          listening leaves the machine.
+        </p>
 
-            <div className="mt-9">
-              <Download release={release} />
-            </div>
-
-            {/* The short version of the disclaimer, where it is actually read. The full text is
-                in the footer of every page. */}
-            <p className="mt-9 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              An independent, unofficial client. Not affiliated with, endorsed
-              by or sponsored by YouTube or Google, and it needs your own
-              YouTube Music Premium subscription.
-            </p>
-          </div>
-
-          {/* What you need and what you get, before you click anything. */}
-          <div className="space-y-8 lg:pt-2">
-            {spec.map((group) => (
-              <dl key={group.heading}>
-                <dt className="mb-3 border-b border-border pb-2 label text-muted-foreground">
-                  {group.heading}
-                </dt>
-                {group.items.map((item) => (
-                  <dd key={item} className="font-mono text-xs leading-6">
-                    {item}
-                  </dd>
-                ))}
-              </dl>
-            ))}
-          </div>
+        <div className="mt-9">
+          <Download release={release} />
         </div>
+
+        {/* The short version of the disclaimer, where it is actually read. The full text is
+            in the footer of every page. */}
+        <p className="mt-9 max-w-xl text-sm leading-relaxed text-muted-foreground">
+          An independent, unofficial client. Not affiliated with, endorsed by or
+          sponsored by YouTube or Google, and it needs your own YouTube Music
+          Premium subscription.
+        </p>
       </section>
 
       {/* The app itself, before any argument about it. */}
       <section className="mx-auto max-w-6xl px-6 pb-20 sm:pb-28">
         <Shot
-          src="/screenshots/home.png"
+          src={home}
           alt="Nixie showing a home feed of albums and playlists, with the player bar along the bottom"
-          width={1440}
-          height={900}
           priority
         />
       </section>
 
       {/* Why it exists. Each reason is a specific complaint and the specific thing built to
-          answer it — the order and pairing come from the project's own README. */}
+          answer it. The order and pairing come from the project's own README. */}
       <section className="border-t border-border">
         <div className="mx-auto max-w-6xl space-y-20 px-6 py-20 sm:space-y-28 sm:py-28">
           <div>
@@ -229,16 +183,14 @@ export default async function Page() {
               </h2>
               <p className="mt-5 leading-relaxed">
                 LRCLIB, then NetEase, then YouTube Music, stopping at the first
-                result good enough — so most tracks never get past the first
+                result good enough, so most tracks never get past the first
                 request. Synced lyrics highlight the line you are on, scroll to
                 keep it in view, and seek when you click one.
               </p>
             </div>
             <Shot
-              src="/screenshots/lyrics.png"
+              src={lyrics}
               alt="Time-synced lyrics beside an album track table, with the current line highlighted"
-              width={1440}
-              height={900}
             />
           </div>
         </div>
@@ -273,10 +225,8 @@ export default async function Page() {
 
           <div className="mt-16">
             <Shot
-              src="/screenshots/explore.png"
+              src={explore}
               alt="The Explore page, with charts, moods and new releases"
-              width={1440}
-              height={900}
             />
           </div>
         </div>
