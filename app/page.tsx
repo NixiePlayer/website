@@ -11,8 +11,11 @@ import { ButtonLink } from "@/components/ui/button-link"
 import { getLatestRelease } from "@/lib/github"
 import {
   formatSize,
+  LICENSE_URL,
   PLATFORMS_URL,
   RELEASES_URL,
+  REPO_URL,
+  SITE_URL,
   SPONSOR_URL,
 } from "@/lib/site"
 
@@ -76,8 +79,51 @@ const restored = [
 export default async function Page() {
   const release = await getLatestRelease()
 
+  // Structured data for the one thing this site is about. Written from the same constants the
+  // page renders, so a changed URL or version cannot leave the markup lying.
+  // ponytail: no FAQPage on /faq. Google dropped those rich results for everyone except
+  // government and health sites in 2023, so it would be markup nobody reads.
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Nixie",
+    url: SITE_URL,
+    description:
+      "A desktop client for YouTube Music on macOS, with loudness normalization you can set, time-synced lyrics, and a session that comes back where you left it.",
+    applicationCategory: "MultimediaApplication",
+    applicationSubCategory: "Music player",
+    operatingSystem: "macOS",
+    softwareVersion: release?.version,
+    downloadUrl: release?.applesilicon.url ?? RELEASES_URL,
+    releaseNotes: `${SITE_URL}/changelog`,
+    softwareHelp: `${SITE_URL}/faq`,
+    license: LICENSE_URL,
+    isAccessibleForFree: true,
+    screenshot: [home, lyrics, explore].map(
+      (image) => `${SITE_URL}${image.src}`
+    ),
+    // No aggregateRating: there are no ratings to report, and inventing them is what gets
+    // structured data ignored.
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    author: {
+      "@type": "Person",
+      name: "Edoardo Ranghieri",
+      url: "https://github.com/TheEdoRan",
+    },
+    codeRepository: REPO_URL,
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        // Version and URLs come from the GitHub API, so escape "<" and a release tag can never
+        // close this script tag early.
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+
       {/* Hero */}
       <section className="mx-auto max-w-6xl px-6 pt-16 pb-14 sm:pt-24">
         <h1 className="headline text-[clamp(2.5rem,7.5vw,4.75rem)] leading-[0.95]">

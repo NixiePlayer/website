@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { DM_Mono, Instrument_Sans, Inter } from "next/font/google"
 
 import "./globals.css"
@@ -46,20 +46,31 @@ export const metadata: Metadata = {
     "LUFS",
     "synced lyrics",
   ],
+  authors: [{ name: "Edoardo Ranghieri", url: "https://github.com/TheEdoRan" }],
+  creator: "Edoardo Ranghieri",
+  // No image here, and none under twitter: app/opengraph-image.tsx supplies both, at the ratio
+  // social platforms actually crop to.
   openGraph: {
     type: "website",
     siteName: "Nixie",
     title: "Nixie: a desktop client for YouTube Music",
     description,
     url: SITE_URL,
-    images: [{ url: "/og.png", width: 2400, height: 600, alt: "Nixie" }],
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
     title: "Nixie: a desktop client for YouTube Music",
     description,
-    images: ["/og.png"],
   },
+}
+
+export const viewport: Viewport = {
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f0f0f" },
+  ],
 }
 
 export default function RootLayout({
