@@ -1,6 +1,13 @@
 import { cacheLife } from "next/cache"
 
-import { REPO, type LatestRelease, type Release } from "@/lib/site"
+import {
+  builds,
+  REPO,
+  type Asset,
+  type BuildKey,
+  type LatestRelease,
+  type Release,
+} from "@/lib/site"
 
 type ApiAsset = { name: string; size: number; browser_download_url: string }
 type ApiRelease = {
@@ -89,11 +96,10 @@ async function toRelease(r: ApiRelease): Promise<Release> {
 }
 
 /**
- * The newest release, with the two disk images a person actually wants. The zips and blockmaps
- * in every release belong to electron-updater, not to anyone reading this site.
+ * The newest release, with the one file per platform a person actually wants.
  *
- * Returns null when the release exists but is missing either disk image, because a download
- * block that can only offer one architecture is worse than one that sends you to GitHub.
+ * Returns null when the release exists but is missing any of them, because a download block
+ * that can only offer some platforms is worse than one that sends you to GitHub.
  */
 export async function getLatestRelease(): Promise<LatestRelease | null> {
   "use cache"
@@ -105,16 +111,14 @@ export async function getLatestRelease(): Promise<LatestRelease | null> {
   )
   if (!release) return null
 
-  const find = (suffix: string) => {
-    const asset = release.assets.find((a) => a.name.endsWith(suffix))
-    return asset ? { url: asset.browser_download_url, size: asset.size } : null
+  const assets = {} as Record<BuildKey, Asset>
+  for (const build of builds) {
+    const asset = release.assets.find((a) => a.name.endsWith(build.suffix))
+    if (!asset) return null
+    assets[build.key] = { url: asset.browser_download_url, size: asset.size }
   }
 
-  const applesilicon = find("-applesilicon.dmg")
-  const intel = find("-intel.dmg")
-  if (!applesilicon || !intel) return null
-
-  return { ...(await toRelease(release)), applesilicon, intel }
+  return { ...(await toRelease(release)), ...assets }
 }
 
 /** Every release, newest first, for the changelog. */

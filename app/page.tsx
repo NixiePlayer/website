@@ -10,11 +10,16 @@ import { Shot } from "@/components/shot"
 import { ButtonLink } from "@/components/ui/button-link"
 import { getLatestRelease } from "@/lib/github"
 import {
+  builds,
+  EXTENSION_DOWNLOAD_URL,
+  EXTENSION_INSTALL_URL,
+  EXTENSION_PRIVACY_URL,
   formatSize,
+  INSTALL_DOC_URL,
   LICENSE_URL,
-  PLATFORMS_URL,
   RELEASES_URL,
   REPO_URL,
+  SIGN_IN_DOC_URL,
   SITE_URL,
   SPONSOR_URL,
 } from "@/lib/site"
@@ -50,11 +55,12 @@ const featureGroups = [
     ],
   },
   {
-    heading: "macOS",
+    heading: "Desktop",
     items: [
-      "Now Playing in Control Center, with artwork, and hardware media keys.",
+      "Now Playing in Control Center on macOS and in the media transport controls on Windows, with artwork, and hardware media keys everywhere they exist.",
       "A quiet notification naming the next track when the queue moves on by itself. Never while the window is focused, and never with a sound, because the only sound this app makes is the music.",
-      "Updates download in the background and install when you quit.",
+      "Keyboard shortcuts follow the platform: Cmd+K to search on macOS, Ctrl+K and Ctrl+Left / Ctrl+Right on Windows and Linux.",
+      "Updates download in the background and install when you quit, on all three platforms.",
     ],
   },
   {
@@ -64,6 +70,23 @@ const featureGroups = [
       "Sandboxed renderer, context isolation, a strict content security policy and validated IPC.",
       "Media and artwork are served through a restricted custom protocol, so the interface never holds a signed URL or a filesystem path.",
     ],
+  },
+]
+
+// Where the Nixie Link extension stands on each platform. The Windows column is decided by how
+// the browser encrypts its cookie store, not by its name, which is why Chrome is called out.
+const extensionMatrix = [
+  {
+    label: "Required",
+    text: "Chrome on Windows, version 127 and later. Any other Chromium browser on Windows once it adopts app-bound encryption. Nixie hides such profiles from the sign-in list and offers the extension first.",
+  },
+  {
+    label: "Optional",
+    text: "Chrome, Edge, Brave, Vivaldi and Chromium on macOS and Linux, and on Windows while they still use the older cookie scheme. Reading the profile from disk already works there.",
+  },
+  {
+    label: "Never",
+    text: "Firefox, on every platform. Its profile is read from disk, and there is no Firefox version of the extension.",
   },
 ]
 
@@ -89,10 +112,10 @@ export default async function Page() {
     name: "Nixie",
     url: SITE_URL,
     description:
-      "A desktop client for YouTube Music on macOS, with loudness normalization you can set, time-synced lyrics, and a session that comes back where you left it.",
+      "A desktop client for YouTube Music for macOS, Windows and Linux, with loudness normalization you can set, time-synced lyrics, and a session that comes back where you left it.",
     applicationCategory: "MultimediaApplication",
     applicationSubCategory: "Music player",
-    operatingSystem: "macOS",
+    operatingSystem: "macOS, Windows, Linux",
     softwareVersion: release?.version,
     downloadUrl: release?.applesilicon.url ?? RELEASES_URL,
     releaseNotes: `${SITE_URL}/changelog`,
@@ -135,9 +158,9 @@ export default async function Page() {
         </h1>
 
         <p className="mt-9 max-w-2xl text-lg leading-relaxed sm:text-xl">
-          Nixie plays your YouTube Music account through a native macOS app
-          instead of a browser tab. Free, MIT licensed, and nothing about your
-          listening leaves the machine.
+          Nixie plays your YouTube Music account through a desktop app for
+          macOS, Windows and Linux instead of a browser tab. Free, MIT licensed,
+          and nothing about your listening leaves the machine.
         </p>
 
         <div className="mt-9">
@@ -294,12 +317,24 @@ export default async function Page() {
                 browser you are already signed in to on the same machine.
               </p>
               <p>
-                You pick a profile from Chrome, Brave, Edge, Vivaldi or Chromium
-                on macOS, or Firefox anywhere, and Nixie reads that
-                profile&apos;s YouTube cookies. They go into a dedicated
-                Electron session partition and nowhere else. They are never
-                logged, never sent anywhere except YouTube, and never exposed to
-                the app&apos;s interface.
+                You pick a profile from Firefox, Chrome, Brave, Edge, Vivaldi or
+                Chromium, and Nixie reads that profile&apos;s YouTube cookies
+                off disk. The one exception is Chrome on Windows, which keeps
+                its cookies readable by Chrome alone. Nixie does not work around
+                that: there, a small browser extension called{" "}
+                <Link
+                  href="/#extension"
+                  className="underline decoration-1 underline-offset-4 transition-colors hover:text-primary"
+                >
+                  Nixie Link
+                </Link>{" "}
+                hands the cookies over instead.
+              </p>
+              <p>
+                Either way the cookies go into a dedicated Electron session
+                partition and nowhere else. They are never logged, never sent
+                anywhere except YouTube, and never exposed to the app&apos;s
+                interface.
               </p>
               <p>
                 Nixie reaches YouTube through the private interface the YouTube
@@ -316,6 +351,12 @@ export default async function Page() {
               >
                 What is stored, and what leaves the machine
               </Link>
+              <a
+                href={SIGN_IN_DOC_URL}
+                className="text-sm underline decoration-1 underline-offset-4 transition-colors hover:text-primary"
+              >
+                Which browser works where
+              </a>
               <Link
                 href="/faq"
                 className="text-sm underline decoration-1 underline-offset-4 transition-colors hover:text-primary"
@@ -327,6 +368,73 @@ export default async function Page() {
         </div>
       </section>
 
+      {/* The extension. It exists for one platform and one browser, so the page says exactly
+          when it is needed rather than presenting it as a general step. */}
+      <section id="extension" className="scroll-mt-16 border-t border-border">
+        <div className="mx-auto max-w-6xl px-6 py-20 sm:py-28">
+          <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+            <div>
+              <h2 className="headline text-[clamp(1.75rem,3.5vw,2.5rem)]">
+                Nixie Link, for Chrome on Windows
+              </h2>
+              <div className="mt-6 space-y-5 leading-relaxed">
+                <p>
+                  Since version 127, Chrome on Windows protects its cookies with
+                  app-bound encryption, so that only Chrome itself can read
+                  them. Getting at them would mean pretending to be Chrome,
+                  which this project will not do. Nixie Link is the honest
+                  route: a browser extension that asks Chrome for the YouTube
+                  cookies through the official extension API and passes them to
+                  Nixie on the same computer.
+                </p>
+                <p>
+                  It never pushes anything. Nixie asks, proves it knows the
+                  pairing code you pasted once, and receives only the cookies it
+                  needs, encrypted, over native messaging. The extension makes
+                  no network requests, runs no code on web pages, and stores
+                  nothing but a random profile ID and that pairing code.
+                </p>
+                <p className="text-muted-foreground">
+                  It is not on the Chrome Web Store. You load it unpacked from
+                  the release zip, in a minute, following the steps in its
+                  README. On Linux it cannot reach a snap or flatpak browser.
+                </p>
+              </div>
+              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+                <ButtonLink
+                  href={EXTENSION_DOWNLOAD_URL}
+                  variant="outline"
+                  className="h-10 gap-1.5 px-4"
+                >
+                  <ArrowDown />
+                  Get Nixie Link
+                </ButtonLink>
+                <a
+                  href={EXTENSION_INSTALL_URL}
+                  className="text-sm underline decoration-1 underline-offset-4 transition-colors hover:text-primary"
+                >
+                  Install steps
+                </a>
+                <a
+                  href={EXTENSION_PRIVACY_URL}
+                  className="text-sm underline decoration-1 underline-offset-4 transition-colors hover:text-primary"
+                >
+                  Privacy notice
+                </a>
+              </div>
+            </div>
+            <dl className="divide-y divide-border rounded-xl border border-border bg-card">
+              {extensionMatrix.map((row) => (
+                <div key={row.label} className="px-5 py-4">
+                  <dt className="mb-1.5 label text-primary">{row.label}</dt>
+                  <dd className="text-sm leading-relaxed">{row.text}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </div>
+      </section>
+
       {/* Download */}
       <section id="download" className="scroll-mt-16 border-t border-border">
         <div className="mx-auto max-w-6xl px-6 py-20 sm:py-28">
@@ -334,24 +442,14 @@ export default async function Page() {
             Get Nixie
           </h2>
           <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">
-            Both builds are signed and notarized by Apple, the disk image as
-            well as the app inside it, so each one opens on a double click with
-            no right-click trick and no Gatekeeper warning at either step.
+            One download per platform. Nixie checks for updates itself
+            afterwards, so this is normally the only time you come here.
           </p>
 
           {release ? (
             <>
               <ul className="mt-10 max-w-2xl divide-y divide-border rounded-xl border border-border">
-                {(
-                  [
-                    {
-                      key: "applesilicon",
-                      name: "Apple silicon",
-                      detail: "M1 and later",
-                    },
-                    { key: "intel", name: "Intel", detail: "Intel Macs" },
-                  ] as const
-                ).map((build) => (
+                {builds.map((build) => (
                   <li
                     key={build.key}
                     className="flex flex-wrap items-center gap-x-4 gap-y-2 px-5 py-4"
@@ -359,8 +457,7 @@ export default async function Page() {
                     <div className="min-w-0 flex-1">
                       <p className="font-medium">{build.name}</p>
                       <p className="font-mono text-xs text-muted-foreground">
-                        {build.detail} · {formatSize(release[build.key].size)} ·
-                        .dmg
+                        {build.detail} · {formatSize(release[build.key].size)}
                       </p>
                     </div>
                     <ButtonLink
@@ -377,24 +474,55 @@ export default async function Page() {
 
               <dl className="mt-10 grid max-w-2xl gap-6 sm:grid-cols-2">
                 <div>
+                  <dt className="mb-2 label text-muted-foreground">macOS</dt>
+                  <dd className="text-sm leading-relaxed">
+                    Both builds are signed and notarized by Apple, the disk
+                    image as well as the app inside it, so each one opens on a
+                    double click with no right-click trick and no Gatekeeper
+                    warning at either step.
+                  </dd>
+                </div>
+                <div>
+                  <dt className="mb-2 label text-muted-foreground">Windows</dt>
+                  <dd className="text-sm leading-relaxed">
+                    The installer is not signed, because a code signing
+                    certificate is an annual bill this project does not have.
+                    SmartScreen will say &quot;Windows protected your PC&quot;
+                    on first run: choose More info, then Run anyway. It installs
+                    per user, with no administrator prompt. Signing in with
+                    Chrome needs{" "}
+                    <Link
+                      href="/#extension"
+                      className="underline decoration-1 underline-offset-4 transition-colors hover:text-primary"
+                    >
+                      Nixie Link
+                    </Link>
+                    .
+                  </dd>
+                </div>
+                <div>
+                  <dt className="mb-2 label text-muted-foreground">Linux</dt>
+                  <dd className="text-sm leading-relaxed">
+                    A single AppImage. Mark it executable and run it. It updates
+                    itself only when run as the AppImage, which is the ordinary
+                    way to run it. Reading a Chromium browser&apos;s cookies
+                    needs libsecret-tools and an unlocked keyring; Firefox needs
+                    neither.
+                  </dd>
+                </div>
+                <div>
                   <dt className="mb-2 label text-muted-foreground">Updates</dt>
                   <dd className="text-sm leading-relaxed">
                     Nixie checks for updates itself, downloads them in the
                     background, and asks nothing of you beyond a restart. If you
                     never restart, the update installs the next time you quit.
-                  </dd>
-                </div>
-                <div>
-                  <dt className="mb-2 label text-muted-foreground">
-                    Other platforms
-                  </dt>
-                  <dd className="text-sm leading-relaxed">
-                    Windows and Linux are planned, with no date attached.{" "}
+                    There is no arm64 build for Windows or Linux, and no deb,
+                    rpm, Homebrew or winget package.{" "}
                     <a
-                      href={PLATFORMS_URL}
+                      href={INSTALL_DOC_URL}
                       className="underline decoration-1 underline-offset-4 transition-colors hover:text-primary"
                     >
-                      Follow along on GitHub
+                      Full install notes
                     </a>
                     .
                   </dd>
@@ -433,8 +561,8 @@ export default async function Page() {
               Nixie is free, MIT licensed, and has no paid tier or premium
               build. What it costs is time: reading upstream responses that
               changed overnight, chasing a race in the audio engine, keeping
-              three lyric providers working, and eventually getting Windows and
-              Linux out the door.
+              three lyric providers working, and keeping three platforms
+              building.
             </p>
             <p className="mt-5 leading-relaxed text-muted-foreground">
               A donation supports the person writing Nixie. It buys no feature,

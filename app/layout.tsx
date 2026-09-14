@@ -27,7 +27,7 @@ const mono = DM_Mono({
 })
 
 const description =
-  "Nixie is a desktop client for YouTube Music on macOS. Loudness normalization you can set, time-synced lyrics, and a session that comes back where you left it. Free, MIT licensed, no telemetry."
+  "Nixie is a desktop client for YouTube Music for macOS, Windows and Linux. Loudness normalization you can set, time-synced lyrics, and a session that comes back where you left it. Free, MIT licensed, no telemetry."
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -42,6 +42,8 @@ export const metadata: Metadata = {
   keywords: [
     "YouTube Music desktop",
     "YouTube Music client macOS",
+    "YouTube Music client Windows",
+    "YouTube Music client Linux",
     "loudness normalization",
     "LUFS",
     "synced lyrics",

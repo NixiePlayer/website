@@ -1,11 +1,12 @@
+export type Os = "mac" | "windows" | "linux"
 export type Arch = "arm" | "x86"
 
 /**
  * Read the architecture out of a WebGL unmasked renderer string.
  *
  * This is the only signal available in Safari and Firefox, because every Mac browser reports
- * "Intel Mac OS X" in its user agent regardless of the chip it is running on. Returns null when
- * the string says nothing useful, so the caller decides the default rather than this guessing.
+ * "Intel Mac OS X" in its user agent regardless of the chip. Returns null when the string says
+ * nothing useful, so the caller decides the default rather than this guessing.
  */
 export function archFromRenderer(renderer: string): Arch | null {
   if (/apple\s+(m\d|gpu|silicon)/i.test(renderer)) return "arm"
@@ -14,15 +15,22 @@ export function archFromRenderer(renderer: string): Arch | null {
 }
 
 /**
- * Whether a user agent describes a Mac.
+ * Which desktop OS a user agent describes, or null for phones, tablets and anything else that
+ * cannot run Nixie.
  *
  * Every Mac browser puts "Macintosh" in its user agent, so navigator.platform adds nothing and
  * is deprecated besides. An iPad in desktop mode says "Macintosh" too, and a touch count is the
  * only thing separating it from a real Mac: no Mac reports more than one touch point, and every
- * iPad reports five.
+ * iPad reports five. Android says "Linux" and ChromeOS says "X11", so both are ruled out before
+ * the Linux match.
  */
-export function isMac(userAgent: string, maxTouchPoints: number): boolean {
-  if (/iphone|ipad|ipod/i.test(userAgent)) return false
-  if (maxTouchPoints > 1) return false
-  return /mac/i.test(userAgent)
+export function osFromUserAgent(
+  userAgent: string,
+  maxTouchPoints: number
+): Os | null {
+  if (/iphone|ipad|ipod|android|cros/i.test(userAgent)) return null
+  if (/windows/i.test(userAgent)) return "windows"
+  if (/mac/i.test(userAgent)) return maxTouchPoints > 1 ? null : "mac"
+  if (/linux|x11/i.test(userAgent)) return "linux"
+  return null
 }

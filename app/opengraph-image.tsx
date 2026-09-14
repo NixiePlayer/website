@@ -64,8 +64,9 @@ export default function Image() {
           maxWidth: 900,
         }}
       >
-        A desktop client for YouTube Music on macOS. Loudness normalization,
-        synced lyrics, and a session that comes back where you left it.
+        A desktop client for YouTube Music, for macOS, Windows and Linux.
+        Loudness normalization, synced lyrics, and a session that comes back
+        where you left it.
       </div>
       {/* The red edge from the project banner, so the card and the repo read as one thing. */}
       <div

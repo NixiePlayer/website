@@ -1,12 +1,19 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 
-import { LICENSE_URL, PLATFORMS_URL, REPO_URL, SPONSOR_URL } from "@/lib/site"
+import {
+  EXTENSION_INSTALL_URL,
+  INSTALL_DOC_URL,
+  LICENSE_URL,
+  REPO_URL,
+  SIGN_IN_DOC_URL,
+  SPONSOR_URL,
+} from "@/lib/site"
 
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Whether you need Premium, why Nixie reads a browser profile instead of asking for a password, what leaves your machine, and when Windows and Linux arrive.",
+    "Whether you need Premium, why Nixie reads a browser profile instead of asking for a password, what leaves your machine, and when you need the Nixie Link extension.",
 }
 
 // Plain headings and paragraphs, all of it visible. An accordion would hide answers from readers
@@ -69,29 +76,49 @@ const groups = [
         ),
       },
       {
-        q: "Which Macs does it run on, and when do Windows and Linux arrive?",
+        q: "What does it run on?",
         a: (
-          <p>
-            Apple silicon and Intel Macs, with a signed and notarized build for
-            each. Windows and Linux are planned but have no date attached,{" "}
-            <a
-              href={PLATFORMS_URL}
-              className="text-primary underline decoration-1 underline-offset-4"
-            >
-              follow along on GitHub
-            </a>
-            .
-          </p>
+          <>
+            <p>
+              macOS, on Apple silicon and Intel Macs, with a build for each.
+              Windows 10 and 11, 64-bit. Linux, 64-bit, as an AppImage. Every
+              build updates itself.
+            </p>
+            <p>
+              There is no arm64 build for Windows or Linux, and no deb, rpm,
+              Homebrew or winget package.{" "}
+              <a
+                href={INSTALL_DOC_URL}
+                className="text-primary underline decoration-1 underline-offset-4"
+              >
+                The install notes
+              </a>{" "}
+              cover each platform in detail.
+            </p>
+          </>
         ),
       },
       {
-        q: "Will macOS refuse to open it?",
+        q: "Will my computer warn me before it opens?",
         a: (
-          <p>
-            No. Every release is signed and notarized by Apple, the disk image
-            as well as the app inside it, so it opens on a double click with no
-            right-click trick and no Gatekeeper warning at either step.
-          </p>
+          <>
+            <p>
+              On macOS, no. Every release is signed and notarized by Apple, the
+              disk image as well as the app inside it, so it opens on a double
+              click with no right-click trick and no Gatekeeper warning at
+              either step.
+            </p>
+            <p>
+              On Windows, once. The installer is not signed, because a code
+              signing certificate is an annual bill this project does not have,
+              so SmartScreen shows &quot;Windows protected your PC&quot; on
+              first run. Choose More info, then Run anyway. That warning is
+              about the absence of a certificate, not about anything found in
+              the file. If you did not download it from the releases page, check
+              the file against it.
+            </p>
+            <p>On Linux, no. Mark the AppImage executable and run it.</p>
+          </>
         ),
       },
       {
@@ -134,10 +161,63 @@ const groups = [
       {
         q: "Which browsers can it read?",
         a: (
-          <p>
-            Chrome, Brave, Edge, Vivaldi or Chromium on macOS, and Firefox on
-            any platform. You pick which profile.
-          </p>
+          <>
+            <p>
+              Firefox on every platform. Chrome, Edge, Brave, Vivaldi and
+              Chromium on macOS and Linux. On Windows, those same browsers as
+              long as their cookie store still uses the older encryption scheme,
+              which today means Edge, Brave, Vivaldi and Chromium. You pick
+              which profile.
+            </p>
+            <p>
+              Chrome on Windows, from version 127, is the exception: it needs
+              the Nixie Link extension. On Linux, a browser installed as a snap
+              or flatpak is out of reach for both paths, so install it from its
+              vendor&apos;s repository instead.{" "}
+              <a
+                href={SIGN_IN_DOC_URL}
+                className="text-primary underline decoration-1 underline-offset-4"
+              >
+                The full table is on GitHub
+              </a>
+              .
+            </p>
+          </>
+        ),
+      },
+      {
+        q: "What is Nixie Link, and do I need it?",
+        a: (
+          <>
+            <p>
+              A small browser extension for Chrome, Edge, Brave, Vivaldi and
+              Chromium. Chrome on Windows protects its cookies so that only
+              Chrome can read them, and Nixie will not impersonate Chrome to get
+              at them. So the extension asks Chrome for the YouTube cookies
+              through the official extension API and hands them to Nixie on the
+              same computer, encrypted, and only when Nixie asks.
+            </p>
+            <p>
+              You need it for Chrome on Windows, and for any other Chromium
+              browser on Windows once it adopts the same protection. Everywhere
+              else it is optional, and Firefox never needs it. It is not on any
+              store: you load it unpacked from the release zip,{" "}
+              <a
+                href={EXTENSION_INSTALL_URL}
+                className="text-primary underline decoration-1 underline-offset-4"
+              >
+                following its README
+              </a>
+              . More in the{" "}
+              <Link
+                href="/#extension"
+                className="text-primary underline decoration-1 underline-offset-4"
+              >
+                extension section
+              </Link>
+              .
+            </p>
+          </>
         ),
       },
       {
@@ -207,7 +287,8 @@ const groups = [
           <p>
             The app checks for them itself, downloads them in the background,
             and asks nothing of you beyond a restart. If you never restart, the
-            update installs the next time you quit.
+            update installs the next time you quit. On Linux this works when
+            Nixie runs as the AppImage, which is the ordinary way to run it.
           </p>
         ),
       },

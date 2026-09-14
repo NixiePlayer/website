@@ -1,7 +1,12 @@
 import type { Route } from "next"
 import Link from "next/link"
 
-import { LICENSE_URL, REPO_URL, SPONSOR_URL } from "@/lib/site"
+import {
+  EXTENSION_REPO_URL,
+  LICENSE_URL,
+  REPO_URL,
+  SPONSOR_URL,
+} from "@/lib/site"
 
 // External links are flagged rather than detected from the href, so the internal ones stay
 // plain route literals and a typo in one is a type error.
@@ -31,6 +36,11 @@ const columns: { heading: string; links: FooterLink[] }[] = [
     heading: "Project",
     links: [
       { href: REPO_URL, label: "Source on GitHub", external: true },
+      {
+        href: EXTENSION_REPO_URL,
+        label: "Nixie Link extension",
+        external: true,
+      },
       { href: `${REPO_URL}/issues`, label: "Report a bug", external: true },
       { href: SPONSOR_URL, label: "Sponsor", external: true },
     ],

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { archFromRenderer, isMac } from "./detect-arch.ts"
+import { archFromRenderer, osFromUserAgent } from "./detect-platform.ts"
 
 // Real UNMASKED_RENDERER_WEBGL strings. The Apple silicon ones must never be read as x86: an
 // Intel Mac cannot open the arm64 build at all, so a wrong guess in that direction is a
@@ -29,25 +29,43 @@ test("archFromRenderer declines to guess", () => {
   assert.equal(archFromRenderer("WebKit WebGL"), null)
 })
 
-test("isMac accepts real Macs", () => {
+test("osFromUserAgent reads the three desktop platforms", () => {
   assert.equal(
-    isMac("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)", 0),
-    true
+    osFromUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)", 0),
+    "mac"
+  )
+  assert.equal(
+    osFromUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64)", 0),
+    "windows"
+  )
+  assert.equal(osFromUserAgent("Mozilla/5.0 (X11; Linux x86_64)", 0), "linux")
+  assert.equal(
+    osFromUserAgent("Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:128.0)", 0),
+    "linux"
   )
 })
 
-test("isMac rejects iPads reporting themselves as Macs", () => {
+test("osFromUserAgent rejects iPads reporting themselves as Macs", () => {
   assert.equal(
-    isMac("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)", 5),
-    false
+    osFromUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)", 5),
+    null
   )
   assert.equal(
-    isMac("Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)", 5),
-    false
+    osFromUserAgent(
+      "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X)",
+      5
+    ),
+    null
   )
 })
 
-test("isMac rejects other platforms", () => {
-  assert.equal(isMac("Mozilla/5.0 (Windows NT 10.0; Win64; x64)", 0), false)
-  assert.equal(isMac("Mozilla/5.0 (X11; Linux x86_64)", 0), false)
+test("osFromUserAgent rejects Android and ChromeOS, which also say Linux", () => {
+  assert.equal(
+    osFromUserAgent("Mozilla/5.0 (Linux; Android 14; Pixel 8)", 5),
+    null
+  )
+  assert.equal(
+    osFromUserAgent("Mozilla/5.0 (X11; CrOS x86_64 14541.0.0)", 0),
+    null
+  )
 })
