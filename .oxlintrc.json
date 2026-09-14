@@ -1,0 +1,45 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "ignorePatterns": [
+    "node_modules/**",
+    ".next",
+    "next-env.d.ts",
+    "dist/**",
+    "build/**",
+    "**/*.tsbuildinfo"
+  ],
+  "options": {
+    "typeAware": true,
+    "typeCheck": true
+  },
+  "plugins": [
+    "oxc",
+    "eslint",
+    "unicorn",
+    "typescript",
+    "react",
+    "react-perf",
+    "nextjs"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "rules": {
+    "eslint/no-shadow": "off",
+    "typescript/consistent-type-imports": "error",
+    "typescript/no-unsafe-type-assertion": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-no-comment-textnodes": "off",
+    "typescript/consistent-return": "off",
+    "nextjs/no-img-element": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.ts"],
+      "rules": {
+        "typescript/no-floating-promises": "off"
+      }
+    }
+  ]
+}

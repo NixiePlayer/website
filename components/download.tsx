@@ -77,7 +77,7 @@ export function Download({ release }: { release: LatestRelease | null }) {
     // Only a Mac needs the architecture; the other platforms resolve at once.
     const arch = os === "mac" ? detectArch() : Promise.resolve(null)
 
-    arch.then((arch) => {
+    void arch.then((arch) => {
       if (active) setDetected({ os, arch: arch ?? "arm" })
     })
 
