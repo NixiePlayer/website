@@ -150,11 +150,8 @@ export default async function Page() {
       {/* Hero */}
       <section className="mx-auto max-w-6xl px-6 pt-16 pb-14 sm:pt-24">
         <h1 className="headline text-[clamp(2.5rem,7.5vw,4.75rem)] leading-[0.95]">
-          Same loudness<span className="text-primary">.</span>
-          <br />
-          Same place you left it<span className="text-primary">.</span>
-          <br />
-          Lyrics that keep up<span className="text-primary">.</span>
+          A native desktop player for{" "}
+          <span className="text-primary">YouTube Music</span>
         </h1>
 
         <p className="mt-9 max-w-2xl text-lg leading-relaxed sm:text-xl">
