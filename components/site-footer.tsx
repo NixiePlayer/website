@@ -106,8 +106,8 @@ export function SiteFooter() {
               className="underline decoration-1 underline-offset-4 transition-colors hover:text-primary"
             >
               TheEdoRan
-            </a>
-            .
+            </a>{" "}
+            and contributors.
           </p>
         </div>
       </div>
