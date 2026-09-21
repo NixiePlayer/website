@@ -38,9 +38,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(SITE_URL),
-    title: { default: title, template: "%s · Nixie" },
+    title: { default: title, template: "%s · Nixie Player" },
     description,
-    applicationName: "Nixie",
+    applicationName: "Nixie Player",
     keywords: m.keywords,
     authors: [
       { name: "Edoardo Ranghieri", url: "https://github.com/TheEdoRan" },
@@ -50,7 +50,7 @@ export async function generateMetadata(): Promise<Metadata> {
     // social platforms actually crop to.
     openGraph: {
       type: "website",
-      siteName: "Nixie",
+      siteName: "Nixie Player",
       title,
       description,
       url: SITE_URL,

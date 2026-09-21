@@ -70,7 +70,7 @@ export default async function Page() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Nixie",
+    name: "Nixie Player",
     url: url("/"),
     inLanguage: locale,
     description: t("jsonLdDescription"),

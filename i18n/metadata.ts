@@ -34,9 +34,9 @@ export async function pageMetadata(
   ])
   const path = (locale: Locale) => getPathname({ href, locale })
 
-  // The document title gets " · Nixie" from the layout's template; social cards do not, so they
+  // The document title gets " · Nixie Player" from the layout's template; social cards do not, so they
   // carry it themselves.
-  const title = page ? `${page.title} · Nixie` : t("title")
+  const title = page ? `${page.title} · Nixie Player` : t("title")
   const description = page?.description ?? t("description")
   // The card from app/[locale]/opengraph-image.tsx. Next.js adds it on its own only when no page
   // sets openGraph, so it is named here; its id and size must match that file. The proxy leaves
@@ -60,7 +60,7 @@ export async function pageMetadata(
     },
     openGraph: {
       type: "website",
-      siteName: "Nixie",
+      siteName: "Nixie Player",
       title,
       description,
       url: path(locale),
