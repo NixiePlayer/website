@@ -1,7 +1,11 @@
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
 
+import { hasLocale } from "next-intl"
+import { getTranslations } from "next-intl/server"
 import { ImageResponse } from "next/og"
+
+import { routing } from "@/i18n/routing"
 
 /**
  * The social preview card, generated at build time.
@@ -10,17 +14,39 @@ import { ImageResponse } from "next/og"
  * drawn here at the 1.91:1 both Open Graph and a large Twitter card expect. Next serves this
  * file for og:image and, because no twitter image is set, for twitter:image too.
  */
-export const size = { width: 1200, height: 630 }
-export const contentType = "image/png"
-export const alt =
-  "Nixie: a desktop client for YouTube Music, with loudness normalization and synced lyrics"
+const size = { width: 1200, height: 630 }
+
+// Every locale this route is generated for comes from generateStaticParams, so the fallback
+// only narrows the type.
+const translate = (locale: string) =>
+  getTranslations({
+    locale: hasLocale(routing.locales, locale) ? locale : routing.defaultLocale,
+    namespace: "OpenGraph",
+  })
+
+// generateImageMetadata rather than a static `alt` export, so the alt text is translated too.
+export async function generateImageMetadata({
+  params,
+}: {
+  params: { locale: string }
+}) {
+  const t = await translate(params.locale)
+  return [{ id: "card", alt: t("alt"), size, contentType: "image/png" }]
+}
 
 // Read at build time: satori has no filesystem and needs the bytes inline.
 const icon = readFileSync(join(process.cwd(), "app/icon.png")).toString(
   "base64"
 )
 
-export default function Image() {
+export default async function Image({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  // Route handlers cannot read next/root-params yet, so the locale comes from params here.
+  const t = await translate((await params).locale)
+
   return new ImageResponse(
     <div
       style={{
@@ -64,9 +90,7 @@ export default function Image() {
           maxWidth: 900,
         }}
       >
-        A desktop client for YouTube Music, for macOS, Windows and Linux.
-        Loudness normalization, synced lyrics, and a session that comes back
-        where you left it.
+        {t("tagline")}
       </div>
       {/* The red edge from the project banner, so the card and the repo read as one thing. */}
       <div

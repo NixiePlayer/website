@@ -1,12 +1,10 @@
 import type { NextConfig } from "next"
+import createNextIntlPlugin from "next-intl/plugin"
 
 const nextConfig: NextConfig = {
   // Every route here is prerendered, and the only request-time work is the GitHub data, which
   // sits behind "use cache". See lib/github.ts for the lifetimes.
   cacheComponents: true,
-
-  // Catches a typo in an internal href at build time instead of at 404 time.
-  typedRoutes: true,
 
   cacheLife: {
     // What `export const revalidate = 3600` used to mean. The built-in "hours" profile is the
@@ -25,4 +23,5 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+// Points next-intl at i18n/request.ts, which loads the messages for the current locale.
+export default createNextIntlPlugin()(nextConfig)

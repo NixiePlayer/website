@@ -1,0 +1,339 @@
+{
+  "Metadata": {
+    "title": "Nixie: a desktop client for YouTube Music",
+    "description": "Nixie is a desktop client for YouTube Music for macOS, Windows and Linux. Loudness normalization you can set, time-synced lyrics, and a session that comes back where you left it. Free, MIT licensed, no telemetry.",
+    "ogLocale": "en_US",
+    "keywords": [
+      "YouTube Music desktop",
+      "YouTube Music client macOS",
+      "YouTube Music client Windows",
+      "YouTube Music client Linux",
+      "loudness normalization",
+      "LUFS",
+      "synced lyrics"
+    ]
+  },
+  "OpenGraph": {
+    "alt": "Nixie: a desktop client for YouTube Music, with loudness normalization and synced lyrics",
+    "tagline": "A desktop client for YouTube Music, for macOS, Windows and Linux. Loudness normalization, synced lyrics, and a session that comes back where you left it."
+  },
+  "Header": {
+    "home": "Nixie home",
+    "beta": "Beta",
+    "features": "Features",
+    "faq": "FAQ",
+    "changelog": "Changelog",
+    "github": "GitHub"
+  },
+  "LocaleSwitcher": {
+    "label": "Language"
+  },
+  "Footer": {
+    "product": "Product",
+    "download": "Download",
+    "features": "Features",
+    "changelog": "Changelog",
+    "faq": "FAQ",
+    "legal": "Legal",
+    "privacy": "Privacy",
+    "security": "Security",
+    "license": "MIT license",
+    "project": "Project",
+    "source": "Source on GitHub",
+    "extension": "Nixie Link extension",
+    "bug": "Report a bug",
+    "sponsor": "Sponsor",
+    "disclaimer": "Nixie is an independent, unofficial client. It is not affiliated with, endorsed by, or sponsored by YouTube, Google, Spotify, LRCLIB or NetEase Cloud Music. YouTube and YouTube Music are trademarks of Google LLC, used here only to say what Nixie connects to. No name, logo or interface of theirs is copied or imitated. You need your own YouTube Music account to use Nixie, and your use of that account remains subject to YouTube's terms.",
+    "premium": "Nixie requires a YouTube Music Premium subscription. It is not a way to get Premium features without Premium.",
+    "credit": "MIT licensed. Built by <link>TheEdoRan</link> and contributors."
+  },
+  "Home": {
+    "jsonLdDescription": "A desktop client for YouTube Music for macOS, Windows and Linux, with loudness normalization you can set, time-synced lyrics, and a session that comes back where you left it.",
+    "hero": {
+      "title": "A native desktop player for <accent>YouTube Music</accent>",
+      "lead": "Nixie plays your YouTube Music account through a desktop app for macOS, Windows and Linux instead of a browser tab. Free, MIT licensed, with no Nixie account, no backend and no telemetry.",
+      "disclaimer": "An independent, unofficial client. Not affiliated with, endorsed by or sponsored by YouTube or Google, and it needs your own YouTube Music Premium subscription.",
+      "shotAlt": "Nixie showing a home feed of albums and playlists, with the player bar along the bottom"
+    },
+    "loudness": {
+      "complaint": "One track arrives mastered loud, the next one quiet, and you spend the evening on the volume key.",
+      "title": "So you pick the loudness, once.",
+      "body": "Three targets, the same three Spotify publishes. -14 LUFS is the default, because that is what YouTube itself aims for."
+    },
+    "restore": {
+      "complaint": "Close the tab, come back, start over.",
+      "title": "So it comes back where you left it.",
+      "body": "Reopen Nixie and everything is there, paused, with the stream already resolved so the first press of Space starts instantly. It comes back paused on purpose: an app that starts making noise before you asked it to is not a feature.",
+      "items": [
+        "the queue",
+        "the current track",
+        "the exact position in it",
+        "the volume",
+        "repeat",
+        "shuffle"
+      ]
+    },
+    "lyrics": {
+      "complaint": "Lyrics are plain text, when they are there at all.",
+      "title": "So three sources are asked, and the synced one wins.",
+      "body": "LRCLIB, then NetEase, then YouTube Music, stopping at the first result good enough, so most tracks never get past the first request. Synced lyrics highlight the line you are on, scroll to keep it in view, and seek when you click one.",
+      "shotAlt": "Time-synced lyrics beside an album track table, with the current line highlighted"
+    },
+    "features": {
+      "title": "Everything else it does",
+      "intro": "Beyond those three it is simply nicer to use. A real track table, a persistent player, a queue you can see, keyboard shortcuts and media keys. A desktop app, not a web page in a frame.",
+      "shotAlt": "The Explore page, with charts, moods and new releases",
+      "groups": [
+        {
+          "heading": "Playback",
+          "items": [
+            "Loudness normalization at -19, -14 or -11 LUFS, or off.",
+            "A volume slider that behaves like your ears do, not like a gain multiplier.",
+            "Queue with play next, add to queue, reorder and remove. Repeat off, all or one. Shuffle.",
+            "Radio from any track, album, artist or playlist.",
+            "Autoplay extends an exhausted queue a full track before the end, so the music never stops to wait for a network request. You can turn it off.",
+            "Three quality levels: data saver, balanced, or highest available."
+          ]
+        },
+        {
+          "heading": "Lyrics",
+          "items": [
+            "Time-synced when a source has them, plain text when it does not, and an explicit “instrumental” when there are none to find.",
+            "Click any line to seek to it.",
+            "Lyric requests carry no cookie and identify neither you nor your account, except to YouTube Music, which is asked over the session already streaming the audio."
+          ]
+        },
+        {
+          "heading": "Library and browsing",
+          "items": [
+            "Your home feed, mood chips and infinite scrolling included.",
+            "Explore, with charts per country.",
+            "Search with live suggestions, filtered by songs, albums, artists or playlists.",
+            "Album, artist and playlist pages, with a real track table you can sort.",
+            "Create, rename, describe, reorder, set the privacy of and delete playlists. Add and remove tracks, like, dislike, save to library, subscribe to artists.",
+            "Podcasts too: shows and episodes, a Podcasts tab in your library, and a playlist of new episodes."
+          ]
+        },
+        {
+          "heading": "Desktop",
+          "items": [
+            "Now Playing in Control Center on macOS and in the media transport controls on Windows, with artwork, and hardware media keys everywhere they exist.",
+            "A quiet notification naming the next track when the queue moves on by itself. Never while the window is focused, and never with a sound, because the only sound this app makes is the music.",
+            "Keyboard shortcuts follow the platform: Cmd+K to search and Cmd+Left / Cmd+Right to change track on macOS, Ctrl+K and Ctrl+Left / Ctrl+Right on Windows and Linux. Swipe on a touchpad to go back and forward.",
+            "In English and Italian. It opens in your system's language, and YouTube Music's own shelves and genres follow the same choice.",
+            "Updates download in the background and install when you quit, on all three platforms."
+          ]
+        },
+        {
+          "heading": "Privacy",
+          "items": [
+            "No Nixie account, no backend, no telemetry, no analytics, no crash uploader.",
+            "Plays go to your YouTube watch history, as they would in YouTube Music itself, so your recommendations keep up. One switch in Settings stops that.",
+            "Diagnostics stay on your computer until you choose to copy or export a report, and you can read it first.",
+            "Sandboxed renderer, context isolation, a strict content security policy and validated IPC. Media and artwork are served through a restricted custom protocol, so the interface never holds a signed URL or a filesystem path."
+          ]
+        }
+      ]
+    },
+    "signIn": {
+      "title": "There is no password field",
+      "p1": "Google refuses sign-in from an embedded browser window, and refuses OAuth tokens on the endpoints this app talks to. So Nixie never asks for your password. It adopts the session from a browser you are already signed in to on the same machine.",
+      "p2": "You pick a profile from Firefox, Chrome, Brave, Edge, Vivaldi or Chromium, and Nixie reads that profile's YouTube cookies off disk. On macOS that can ask for your Keychain password, and recent versions of macOS refuse the read until you give Nixie Full Disk Access, which it asks for on screen when that happens. The one exception is Chrome on Windows, which keeps its cookies readable by Chrome alone. Nixie does not work around that: there, a small browser extension called <extension>Nixie Link</extension> hands the cookies over instead.",
+      "p3": "Either way the cookies go into a dedicated Electron session partition and nowhere else. They are never logged, never sent anywhere except YouTube, and never exposed to the app's interface.",
+      "p4": "Nixie reaches YouTube through the private interface the YouTube Music apps use, which Google does not publish or support. Nothing about you leaves this device to anyone else, but the account you link is talking to YouTube through an unofficial client, and it carries whatever risk that brings.",
+      "privacy": "What is stored, and what leaves the machine",
+      "browsers": "Which browser works where",
+      "faq": "Read the FAQ"
+    },
+    "extension": {
+      "title": "Nixie Link, for Chrome on Windows",
+      "p1": "Since version 127, Chrome on Windows protects its cookies with app-bound encryption, so that only Chrome itself can read them. Getting at them would mean pretending to be Chrome, which this project will not do. Nixie Link is the honest route: a browser extension that asks Chrome for the YouTube cookies through the official extension API and passes them to Nixie on the same computer.",
+      "p2": "It never pushes anything. Nixie asks, proves it knows the pairing code you pasted once, and receives only the cookies it needs, encrypted, over native messaging. The extension makes no network requests, runs no code on web pages, and stores nothing but a random profile ID and that pairing code.",
+      "p3": "It is not on the Chrome Web Store. You load it unpacked from the release zip, in a minute, following the steps in its README. On Linux it cannot reach a snap or flatpak browser.",
+      "get": "Get Nixie Link",
+      "install": "Install steps",
+      "privacy": "Privacy notice",
+      "matrix": [
+        {
+          "label": "Required",
+          "text": "Chrome on Windows, version 127 and later. Any other Chromium browser on Windows once it adopts app-bound encryption. Nixie hides such profiles from the sign-in list and offers the extension first."
+        },
+        {
+          "label": "Optional",
+          "text": "Chrome, Edge, Brave, Vivaldi and Chromium on macOS and Linux, and on Windows while they still use the older cookie scheme. Reading the profile from disk already works there."
+        },
+        {
+          "label": "Never",
+          "text": "Firefox, on every platform. Its profile is read from disk, and there is no Firefox version of the extension."
+        }
+      ]
+    },
+    "download": {
+      "title": "Get Nixie",
+      "intro": "One download per platform. Nixie checks for updates itself afterwards, so this is normally the only time you come here.",
+      "button": "Download",
+      "macos": "Both builds are signed and notarized by Apple, the disk image as well as the app inside it, so each one opens on a double click with no right-click trick and no Gatekeeper warning at either step.",
+      "windows": "The installer is not signed, because a code signing certificate is an annual bill this project does not have. SmartScreen will say \"Windows protected your PC\" on first run: choose More info, then Run anyway. It installs per user, with no administrator prompt. Signing in with Chrome needs <extension>Nixie Link</extension>.",
+      "linux": "A single AppImage, with no libfuse2 needed on Ubuntu 24.04 and later. Mark it executable and run it. It updates itself only when run as the AppImage, which is the ordinary way to run it. Reading a Chromium browser's cookies needs libsecret-tools and an unlocked keyring; Firefox needs neither.",
+      "updatesLabel": "Updates",
+      "updates": "Nixie checks for updates when it starts and every six hours, downloads them in the background, and asks nothing of you beyond a restart. If you never restart, the update installs the next time you quit. There is no arm64 build for Windows or Linux, and no deb, rpm, Homebrew or winget package. <install>Full install notes</install>.",
+      "allAssets": "Every asset in {tag}, including the update archives",
+      "releases": "Open the releases page"
+    },
+    "sponsor": {
+      "title": "Nothing is kept behind a donation",
+      "p1": "Nixie is free, MIT licensed, and has no paid tier or premium build. What it costs is time: reading upstream responses that changed overnight, chasing a race in the audio engine, keeping three lyric providers working, and keeping three platforms building.",
+      "p2": "A donation supports the people who build Nixie. It buys no feature, no priority, and no entitlement to anything on YouTube.",
+      "button": "Sponsor on GitHub"
+    }
+  },
+  "Download": {
+    "fromGithub": "Download from GitHub",
+    "platforms": "macOS · Windows · Linux",
+    "desktopOnly": "Nixie is a desktop app.",
+    "runsOn": "It runs on macOS, Windows and Linux.",
+    "everyBuild": "See every build",
+    "downloadFor": "Download for {name}",
+    "appleSilicon": "Apple silicon",
+    "intel": "Intel",
+    "intelMac": "Intel Mac?",
+    "appleSiliconMac": "Apple silicon Mac?",
+    "otherBuild": "Get the {name} build instead",
+    "windowsAndLinux": "Windows and Linux",
+    "windowsDetail": "Windows 10 and 11, 64-bit",
+    "linuxDetail": "AppImage, 64-bit",
+    "chrome": "Signing in with Chrome?",
+    "needLink": "You will also need Nixie Link",
+    "markExecutable": "Mark it executable, then run it.",
+    "installNotes": "Install notes",
+    "otherPlatforms": "Other platforms"
+  },
+  "Builds": {
+    "applesilicon": "Apple silicon, M1 and later",
+    "intel": "Intel",
+    "windows": "10 and 11, 64-bit",
+    "linux": "64-bit AppImage"
+  },
+  "Lufs": {
+    "axis": "Integrated loudness, in LUFS",
+    "loud": "Mastered loud",
+    "loudNote": "pulled down 5.7 dB",
+    "quiet": "Mastered quiet",
+    "quietNote": "lifted 6 dB, the limit",
+    "caption": "Nixie reads the integrated loudness YouTube already measured for each stream, so nothing is analysed and no track waits to start. Loud masters come all the way down. Quiet ones come up, but never by more than 6 dB."
+  },
+  "Faq": {
+    "metaDescription": "Whether you need Premium, why Nixie reads a browser profile instead of asking for a password, what leaves your machine, and when you need the Nixie Link extension.",
+    "title": "Questions",
+    "intro": "The things worth knowing before you install Nixie, and the things people ask afterwards.",
+    "groups": {
+      "before": "Before you install",
+      "signIn": "Signing in",
+      "using": "Using it"
+    },
+    "questions": {
+      "premium": {
+        "q": "Do I need YouTube Music Premium?",
+        "a": "<p>Yes. Nixie plays without advertisements, in the background, and through its own audio engine, and those are the things YouTube sells a subscription for. It checks when you link an account and refuses one that does not hold a subscription.</p><p>Nixie is not a way to get Premium features without Premium, and it is not affiliated with or authorized by YouTube.</p>"
+      },
+      "official": {
+        "q": "Is this official? Is it made by Google or YouTube?",
+        "a": "<p>No. Nixie is an independent, unofficial client, not affiliated with, endorsed by or sponsored by Google or YouTube. It is not a YouTube Music product, it does not copy or imitate one, and nothing here speaks for Google. YouTube and YouTube Music are trademarks of Google LLC, used here only to say what Nixie connects to.</p>"
+      },
+      "cost": {
+        "q": "What does it cost?",
+        "a": "<p>Nothing. Nixie is free and <license>MIT licensed</license>, with no paid tier and no premium build. Nothing in the app asks for money and nothing is kept behind a <sponsor>donation</sponsor>. A donation supports the people who build Nixie and buys no feature and no priority.</p>"
+      },
+      "platforms": {
+        "q": "What does it run on?",
+        "a": "<p>macOS, on Apple silicon and Intel Macs, with a build for each. Windows 10 and 11, 64-bit. Linux, 64-bit, as an AppImage that needs no libfuse2 on Ubuntu 24.04 and later. Every build updates itself.</p><p>There is no arm64 build for Windows or Linux, and no deb, rpm, Homebrew or winget package. <install>The install notes</install> cover each platform in detail.</p>"
+      },
+      "warnings": {
+        "q": "Will my computer warn me before it opens?",
+        "a": "<p>On macOS, no. Every release is signed and notarized by Apple, the disk image as well as the app inside it, so it opens on a double click with no right-click trick and no Gatekeeper warning at either step.</p><p>On Windows, once. The installer is not signed, because a code signing certificate is an annual bill this project does not have, so SmartScreen shows \"Windows protected your PC\" on first run. Choose More info, then Run anyway. That warning is about the absence of a certificate, not about anything found in the file. If you did not download it from the releases page, check the file against it.</p><p>On Linux, no. Mark the AppImage executable and run it.</p>"
+      },
+      "language": {
+        "q": "Is the app in my language?",
+        "a": "<p>Nixie speaks English and Italian. It opens in your system's language and you can change it in Settings, and YouTube Music's own shelves and genres follow the same choice.</p>"
+      },
+      "finished": {
+        "q": "Is it finished?",
+        "a": "<p>No. Nixie is beta software. Things move, and some of them break. <issues>Bug reports</issues> are welcome.</p>"
+      },
+      "password": {
+        "q": "Why does it want a browser profile instead of my password?",
+        "a": "<p>Because there is no other way in. Google refuses sign-in from an embedded browser window, and refuses OAuth tokens on the endpoints this app talks to. So Nixie does not ask for your password at all: it adopts the session from a browser you are already signed in to on the same machine.</p><p>There is no password field and no way to paste a session by hand.</p>"
+      },
+      "browsers": {
+        "q": "Which browsers can it read?",
+        "a": "<p>Firefox on every platform. Chrome, Edge, Brave, Vivaldi and Chromium on macOS and Linux. On Windows, those same browsers as long as their cookie store still uses the older encryption scheme, which today means Edge, Brave, Vivaldi and Chromium. You pick which profile.</p><p>On macOS the first read can ask for your Keychain password, and recent versions of macOS refuse it until you give Nixie Full Disk Access in System Settings, under Privacy & Security. Nixie shows you the way there when that happens.</p><p>Chrome on Windows, from version 127, is the exception: it needs the Nixie Link extension. On Linux, a browser installed as a snap or flatpak is out of reach for both paths, so install it from its vendor's repository instead. <signin>The full table is on GitHub</signin>.</p>"
+      },
+      "extension": {
+        "q": "What is Nixie Link, and do I need it?",
+        "a": "<p>A small browser extension for Chrome, Edge, Brave, Vivaldi and Chromium. Chrome on Windows protects its cookies so that only Chrome can read them, and Nixie will not impersonate Chrome to get at them. So the extension asks Chrome for the YouTube cookies through the official extension API and hands them to Nixie on the same computer, encrypted, and only when Nixie asks.</p><p>You need it for Chrome on Windows, and for any other Chromium browser on Windows once it adopts the same protection. Everywhere else it is optional, and Firefox never needs it. It is not on any store: you load it unpacked from the release zip, <extInstall>following its README</extInstall>. More in the <extension>extension section</extension>.</p>"
+      },
+      "cookies": {
+        "q": "Where do those cookies go?",
+        "a": "<p>Into a dedicated Electron session partition, and nowhere else. They are never logged, never sent anywhere except YouTube, and never exposed to the app's interface.</p><p>Google expires the session every few minutes and only the browser holds the current value, so Nixie re-reads that profile while it runs, at most once a minute, for as long as the account stays linked. Signing out clears the session and the parser cache.</p>"
+      },
+      "risk": {
+        "q": "Is there a risk to my account?",
+        "a": "<p>Nixie reaches YouTube through the private interface the YouTube Music apps use, which Google does not publish or support. Nothing about you leaves your device to anyone else, but the account you link is talking to YouTube through an unofficial client, and it carries whatever risk that brings.</p>"
+      },
+      "normalization": {
+        "q": "What does loudness normalization actually do?",
+        "a": "<p>It brings every track to a target you choose: -19, -14 or -11 LUFS, or off. Nixie reads the integrated loudness YouTube already measured for each stream, so there is no analysis pass and no delay before a track starts. Loud tracks are pulled all the way down. Quiet ones are lifted, but never by more than 6 dB, because YouTube publishes a loudness and not a true peak, and a quiet master already peaking near full scale would clip if it were lifted blind.</p>"
+      },
+      "noLyrics": {
+        "q": "What if a track has no lyrics?",
+        "a": "<p>Nixie asks LRCLIB, then NetEase, then YouTube Music itself, and prefers a time-synced result over a plain one whichever source it came from. When a track genuinely has none, it says so, and marks a track with no words at all as instrumental rather than leaving you wondering.</p>"
+      },
+      "podcasts": {
+        "q": "Does it play podcasts?",
+        "a": "<p>Yes. Shows and episodes play like any other track, your library has a Podcasts tab, and new episodes from the shows you follow collect in their own playlist. Episodes have no lyrics, likes or radio.</p>"
+      },
+      "updates": {
+        "q": "How do updates work?",
+        "a": "<p>The app checks for them when it starts and every six hours while it runs, downloads them in the background, and asks nothing of you beyond a restart. If you never restart, the update installs the next time you quit. On Linux this works when Nixie runs as the AppImage, which is the ordinary way to run it.</p>"
+      },
+      "tracking": {
+        "q": "Does it track me?",
+        "a": "<p>No. There is no Nixie account, no backend, no telemetry, no analytics and no crash uploader. What does leave the machine goes to YouTube: the session, and each play you start, which lands in your watch history just as it would in YouTube Music. One switch in Settings stops the play reports.</p><p><privacy>The privacy document</privacy> lists exactly what is stored and what leaves the machine.</p>"
+      },
+      "bugs": {
+        "q": "Something broke. How do I report it?",
+        "a": "<p>Settings has an error report you can read before you share it, even before you sign in. It holds operation names, error categories and versions, never cookies, account names, URLs or lyrics. Nixie never sends it by itself: reporting an issue copies it and opens a GitHub draft that you submit yourself. Or open an <issues>issue</issues> directly.</p>"
+      },
+      "source": {
+        "q": "Can I read the source?",
+        "a": "<p>Yes. <repo>All of it</repo>, under the MIT license. Every build also ships the full license text of every open source package inside it, readable in Settings under About.</p>"
+      }
+    }
+  },
+  "Changelog": {
+    "title": "Changelog",
+    "metaDescription": "Every Nixie release, and what changed in it.",
+    "intro": "Every release, newest first. Nixie updates itself, so you are normally reading this out of curiosity rather than necessity.",
+    "failed": "The release list could not be loaded from GitHub just now.",
+    "readOnGithub": "Read it on GitHub",
+    "assets": "Assets",
+    "noNotes": "No notes for this release.",
+    "englishOnly": "Release notes are written in English."
+  },
+  "Privacy": {
+    "title": "Privacy",
+    "metaDescription": "Exactly what Nixie stores on your machine and what leaves it. No Nixie account, no backend, no telemetry, no analytics, no crash uploader.",
+    "intro": "Nixie has no account, no backend and no telemetry. This is the document that ships with the app, listing exactly what is stored on your machine and what leaves it."
+  },
+  "Security": {
+    "title": "Security",
+    "metaDescription": "How Nixie is built to hold a browser session safely, and how to report a vulnerability.",
+    "intro": "Nixie holds a live YouTube session, so how it is built matters. This is the document that ships with the app, including how to report a vulnerability."
+  },
+  "RepoDoc": {
+    "onGithub": "{path} on GitHub",
+    "englishOnly": "This document is kept in English only, the same text that ships with the app.",
+    "failed": "This document could not be loaded from GitHub just now. It is always readable at its source.",
+    "readOnGithub": "Read {path} on GitHub"
+  }
+}

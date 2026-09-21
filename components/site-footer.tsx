@@ -1,6 +1,6 @@
-import type { Route } from "next"
-import Link from "next/link"
+import { useTranslations, type Messages } from "next-intl"
 
+import { Link } from "@/i18n/navigation"
 import {
   EXTENSION_REPO_URL,
   LICENSE_URL,
@@ -8,46 +8,56 @@ import {
   SPONSOR_URL,
 } from "@/lib/site"
 
-// External links are flagged rather than detected from the href, so the internal ones stay
-// plain route literals and a typo in one is a type error.
-type FooterLink =
-  | { label: string; href: Route }
-  | { label: string; href: string; external: true }
+// External links are flagged rather than detected from the href, so the internal ones go
+// through the locale-aware Link and keep the reader in their language.
+type Label = keyof Messages["Footer"]
+type FooterLink = { label: Label; href: string; external?: true }
 
-const columns: { heading: string; links: FooterLink[] }[] = [
+const columns: { heading: Label; links: FooterLink[] }[] = [
   {
-    heading: "Product",
+    heading: "product",
     links: [
-      { href: "/#download", label: "Download" },
-      { href: "/#features", label: "Features" },
-      { href: "/changelog", label: "Changelog" },
-      { href: "/faq", label: "FAQ" },
+      { href: "/#download", label: "download" },
+      { href: "/#features", label: "features" },
+      { href: "/changelog", label: "changelog" },
+      { href: "/faq", label: "faq" },
     ],
   },
   {
-    heading: "Legal",
+    heading: "legal",
     links: [
-      { href: "/privacy", label: "Privacy" },
-      { href: "/security", label: "Security" },
-      { href: LICENSE_URL, label: "MIT license", external: true },
+      { href: "/privacy", label: "privacy" },
+      { href: "/security", label: "security" },
+      { href: LICENSE_URL, label: "license", external: true },
     ],
   },
   {
-    heading: "Project",
+    heading: "project",
     links: [
-      { href: REPO_URL, label: "Source on GitHub", external: true },
+      { href: REPO_URL, label: "source", external: true },
       {
         href: EXTENSION_REPO_URL,
-        label: "Nixie Link extension",
+        label: "extension",
         external: true,
       },
-      { href: `${REPO_URL}/issues`, label: "Report a bug", external: true },
-      { href: SPONSOR_URL, label: "Sponsor", external: true },
+      { href: `${REPO_URL}/issues`, label: "bug", external: true },
+      { href: SPONSOR_URL, label: "sponsor", external: true },
     ],
   },
 ]
 
+const authorLink = (chunks: React.ReactNode) => (
+  <a
+    href="https://github.com/TheEdoRan"
+    className="underline decoration-1 underline-offset-4 transition-colors hover:text-primary"
+  >
+    {chunks}
+  </a>
+)
+
 export function SiteFooter() {
+  const t = useTranslations("Footer")
+
   return (
     <footer className="border-t border-border">
       <div className="mx-auto max-w-6xl px-6 py-14">
@@ -55,24 +65,24 @@ export function SiteFooter() {
           {columns.map((column) => (
             <div key={column.heading}>
               <h2 className="mb-4 label text-muted-foreground">
-                {column.heading}
+                {t(column.heading)}
               </h2>
               <ul className="space-y-2.5 text-sm">
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    {"external" in link ? (
+                    {link.external ? (
                       <a
                         href={link.href}
                         className="transition-colors hover:text-primary"
                       >
-                        {link.label}
+                        {t(link.label)}
                       </a>
                     ) : (
                       <Link
                         href={link.href}
                         className="transition-colors hover:text-primary"
                       >
-                        {link.label}
+                        {t(link.label)}
                       </Link>
                     )}
                   </li>
@@ -86,29 +96,9 @@ export function SiteFooter() {
             it has no relationship with. The short version also sits under the hero, where it is
             actually read. */}
         <div className="mt-14 space-y-4 border-t border-border pt-8 text-xs leading-relaxed text-muted-foreground">
-          <p>
-            Nixie is an independent, unofficial client. It is not affiliated
-            with, endorsed by, or sponsored by YouTube, Google, Spotify, LRCLIB
-            or NetEase Cloud Music. YouTube and YouTube Music are trademarks of
-            Google LLC, used here only to say what Nixie connects to. No name,
-            logo or interface of theirs is copied or imitated. You need your own
-            YouTube Music account to use Nixie, and your use of that account
-            remains subject to YouTube&apos;s terms.
-          </p>
-          <p>
-            Nixie requires a YouTube Music Premium subscription. It is not a way
-            to get Premium features without Premium.
-          </p>
-          <p className="font-mono">
-            MIT licensed. Built by{" "}
-            <a
-              href="https://github.com/TheEdoRan"
-              className="underline decoration-1 underline-offset-4 transition-colors hover:text-primary"
-            >
-              TheEdoRan
-            </a>{" "}
-            and contributors.
-          </p>
+          <p>{t("disclaimer")}</p>
+          <p>{t("premium")}</p>
+          <p className="font-mono">{t.rich("credit", { link: authorLink })}</p>
         </div>
       </div>
     </footer>

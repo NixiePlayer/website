@@ -1,10 +1,11 @@
 "use client"
 
 import { ArrowDown } from "lucide-react"
-import Link from "next/link"
+import { useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
 
 import { ButtonLink } from "@/components/ui/button-link"
+import { Link } from "@/i18n/navigation"
 import {
   archFromRenderer,
   osFromUserAgent,
@@ -63,6 +64,7 @@ const inlineLink =
   "underline decoration-1 underline-offset-4 transition-colors hover:text-primary"
 
 export function Download({ release }: { release: LatestRelease | null }) {
+  const t = useTranslations("Download")
   // ponytail: the first render assumes an Apple silicon Mac, which is both the common case and
   // the safe one: an Apple silicon Mac runs the Intel build under Rosetta, while an Intel Mac
   // cannot open the arm64 build at all. Server-side detection would need headers() and would
@@ -96,10 +98,10 @@ export function Download({ release }: { release: LatestRelease | null }) {
           className="h-12 gap-2 px-5 text-[0.95rem]"
         >
           <ArrowDown />
-          Download from GitHub
+          {t("fromGithub")}
         </ButtonLink>
         <p className="font-mono text-xs text-muted-foreground">
-          macOS · Windows · Linux
+          {t("platforms")}
         </p>
       </div>
     )
@@ -109,13 +111,11 @@ export function Download({ release }: { release: LatestRelease | null }) {
     return (
       <div className="flex flex-col items-start gap-3">
         <p className="text-lg">
-          <span className="font-medium">Nixie is a desktop app.</span>{" "}
-          <span className="text-muted-foreground">
-            It runs on macOS, Windows and Linux.
-          </span>
+          <span className="font-medium">{t("desktopOnly")}</span>{" "}
+          <span className="text-muted-foreground">{t("runsOn")}</span>
         </p>
         <Link href="/#download" className={`text-sm ${inlineLink}`}>
-          See every build
+          {t("everyBuild")}
         </Link>
       </div>
     )
@@ -124,7 +124,7 @@ export function Download({ release }: { release: LatestRelease | null }) {
   if (detected.os === "mac") {
     const primary = detected.arch === "arm" ? "applesilicon" : "intel"
     const other = detected.arch === "arm" ? "intel" : "applesilicon"
-    const names = { applesilicon: "Apple silicon", intel: "Intel" } as const
+    const names = { applesilicon: t("appleSilicon"), intel: t("intel") }
 
     return (
       <div className="flex flex-col items-start gap-3">
@@ -133,26 +133,25 @@ export function Download({ release }: { release: LatestRelease | null }) {
           className="h-12 gap-2 px-5 text-[0.95rem]"
         >
           <ArrowDown />
-          Download for {names[primary]}
+          {t("downloadFor", { name: names[primary] })}
         </ButtonLink>
 
         <p className="font-mono text-xs text-muted-foreground">
-          v{release.version} · {formatSize(release[primary].size)} · signed and
-          notarized
+          v{release.version} · {formatSize(release[primary].size)}
         </p>
 
         {/* The architecture is a guess, so the other build is always one click away and never
             hidden behind a menu. */}
         <p className="text-sm">
           <span className="text-muted-foreground">
-            {detected.arch === "arm" ? "Intel Mac?" : "Apple silicon Mac?"}
+            {detected.arch === "arm" ? t("intelMac") : t("appleSiliconMac")}
           </span>{" "}
           <a href={release[other].url} className={inlineLink}>
-            Get the {names[other]} build instead
+            {t("otherBuild", { name: names[other] })}
           </a>
           <span className="text-muted-foreground"> · </span>
           <Link href="/#download" className={inlineLink}>
-            Windows and Linux
+            {t("windowsAndLinux")}
           </Link>
         </p>
       </div>
@@ -166,37 +165,33 @@ export function Download({ release }: { release: LatestRelease | null }) {
     <div className="flex flex-col items-start gap-3">
       <ButtonLink href={asset.url} className="h-12 gap-2 px-5 text-[0.95rem]">
         <ArrowDown />
-        Download for {windows ? "Windows" : "Linux"}
+        {t("downloadFor", { name: windows ? "Windows" : "Linux" })}
       </ButtonLink>
 
       <p className="font-mono text-xs text-muted-foreground">
         v{release.version} · {formatSize(asset.size)} ·{" "}
-        {windows ? "Windows 10 and 11, 64-bit" : "AppImage, 64-bit"}
+        {windows ? t("windowsDetail") : t("linuxDetail")}
       </p>
 
       <p className="text-sm">
         {windows ? (
           <>
-            <span className="text-muted-foreground">
-              Signing in with Chrome?
-            </span>{" "}
+            <span className="text-muted-foreground">{t("chrome")}</span>{" "}
             <Link href="/#extension" className={inlineLink}>
-              You will also need Nixie Link
+              {t("needLink")}
             </Link>
           </>
         ) : (
           <>
-            <span className="text-muted-foreground">
-              Mark it executable, then run it.
-            </span>{" "}
+            <span className="text-muted-foreground">{t("markExecutable")}</span>{" "}
             <Link href="/#download" className={inlineLink}>
-              Install notes
+              {t("installNotes")}
             </Link>
           </>
         )}
         <span className="text-muted-foreground"> · </span>
         <Link href="/#download" className={inlineLink}>
-          Other platforms
+          {t("otherPlatforms")}
         </Link>
       </p>
     </div>

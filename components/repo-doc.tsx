@@ -1,5 +1,7 @@
 import { ArrowUpRight } from "lucide-react"
+import { getLocale, getTranslations } from "next-intl/server"
 
+import { routing } from "@/i18n/routing"
 import { getRenderedDoc } from "@/lib/github"
 import { blobUrl } from "@/lib/site"
 
@@ -25,7 +27,11 @@ export async function RepoDoc({
   title: string
   intro: string
 }) {
-  const html = await getRenderedDoc(path)
+  const [html, t, locale] = await Promise.all([
+    getRenderedDoc(path),
+    getTranslations("RepoDoc"),
+    getLocale(),
+  ])
   const source = blobUrl(path)
 
   return (
@@ -33,13 +39,17 @@ export async function RepoDoc({
       <h1 className="headline text-[clamp(2rem,5vw,3rem)] leading-tight">
         {title}
       </h1>
-      <p className="mt-4 leading-relaxed text-muted-foreground">{intro}</p>
+      <p className="mt-4 leading-relaxed text-muted-foreground">
+        {intro}
+        {/* The document is the one that ships with the app, which exists in English only. */}
+        {locale !== routing.defaultLocale && ` ${t("englishOnly")}`}
+      </p>
       <p className="mt-6">
         <a
           href={source}
           className="inline-flex items-center gap-1 font-mono text-xs text-muted-foreground transition-colors hover:text-primary"
         >
-          {path} on GitHub
+          {t("onGithub", { path })}
           <ArrowUpRight className="size-3.5" />
         </a>
       </p>
@@ -53,16 +63,13 @@ export async function RepoDoc({
         />
       ) : (
         <div className="rounded-xl border border-border bg-card p-6">
-          <p className="leading-relaxed">
-            This document could not be loaded from GitHub just now. It is always
-            readable at its source.
-          </p>
+          <p className="leading-relaxed">{t("failed")}</p>
           <p className="mt-4">
             <a
               href={source}
               className="inline-flex items-center gap-1 text-primary underline decoration-1 underline-offset-4"
             >
-              Read {path} on GitHub
+              {t("readOnGithub", { path })}
               <ArrowUpRight className="size-3.5" />
             </a>
           </p>

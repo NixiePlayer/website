@@ -1,7 +1,7 @@
 import type { VariantProps } from "class-variance-authority"
+import { cn } from "cn"
 
 import { buttonVariants } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 
 /**
  * An anchor wearing the button's styling.

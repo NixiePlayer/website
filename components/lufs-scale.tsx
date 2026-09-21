@@ -1,3 +1,5 @@
+import { useFormatter, useTranslations } from "next-intl"
+
 /**
  * A loudness axis, to scale.
  *
@@ -18,26 +20,17 @@ const TARGETS = [-19, -14, -11]
 const TARGET = -14
 
 const tracks = [
-  {
-    name: "Mastered loud",
-    measured: -8.3,
-    landsAt: TARGET,
-    note: "pulled down 5.7 dB",
-  },
-  {
-    name: "Mastered quiet",
-    measured: -21.6,
-    landsAt: -15.6,
-    note: "lifted 6 dB, the limit",
-  },
-]
+  { name: "loud", note: "loudNote", measured: -8.3, landsAt: TARGET },
+  { name: "quiet", note: "quietNote", measured: -21.6, landsAt: -15.6 },
+] as const
 
 export function LufsScale() {
+  const t = useTranslations("Lufs")
+  const format = useFormatter()
+
   return (
     <figure className="rounded-xl border border-border bg-card p-6 sm:p-8">
-      <p className="mb-6 label text-muted-foreground">
-        Integrated loudness, in LUFS
-      </p>
+      <p className="mb-6 label text-muted-foreground">{t("axis")}</p>
 
       {/* Axis. The bars share this coordinate space exactly, so the ends are aligned rather than
           inset: centring a label on 0% or 100% would hang it off the edge of the card. */}
@@ -67,7 +60,7 @@ export function LufsScale() {
                     : "font-mono text-xs text-muted-foreground"
                 }
               >
-                {lufs}
+                {format.number(lufs)}
               </span>
               <div
                 className={
@@ -90,9 +83,10 @@ export function LufsScale() {
         {tracks.map((track) => (
           <div key={track.name}>
             <div className="mb-1.5 flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
-              <span className="text-sm">{track.name}</span>
+              <span className="text-sm">{t(track.name)}</span>
               <span className="font-mono text-xs text-muted-foreground">
-                {track.measured} → {track.landsAt} LUFS, {track.note}
+                {format.number(track.measured)} → {format.number(track.landsAt)}{" "}
+                LUFS, {t(track.note)}
               </span>
             </div>
             <div className="h-7 rounded-sm bg-secondary">
@@ -112,9 +106,7 @@ export function LufsScale() {
       </div>
 
       <figcaption className="mt-6 text-sm text-muted-foreground">
-        Nixie reads the integrated loudness YouTube already measured for each
-        stream, so nothing is analysed and no track waits to start. Loud masters
-        come all the way down. Quiet ones come up, but never by more than 6 dB.
+        {t("caption")}
       </figcaption>
     </figure>
   )

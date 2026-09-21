@@ -49,28 +49,24 @@ export const builds = [
     key: "applesilicon",
     os: "mac",
     name: "macOS",
-    detail: "Apple silicon, M1 and later",
     suffix: "-applesilicon.dmg",
   },
   {
     key: "intel",
     os: "mac",
     name: "macOS",
-    detail: "Intel",
     suffix: "-intel.dmg",
   },
   {
     key: "windows",
     os: "windows",
     name: "Windows",
-    detail: "10 and 11, 64-bit",
     suffix: "-setup.exe",
   },
   {
     key: "linux",
     os: "linux",
     name: "Linux",
-    detail: "64-bit AppImage",
     suffix: "-x64.AppImage",
   },
 ] as const
@@ -81,13 +77,4 @@ export type LatestRelease = Release & Record<BuildKey, Asset>
 
 export function formatSize(bytes: number): string {
   return `${Math.round(bytes / 1_000_000)} MB`
-}
-
-export function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  })
 }

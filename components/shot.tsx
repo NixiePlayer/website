@@ -1,6 +1,5 @@
+import { cn } from "cn"
 import Image, { type StaticImageData } from "next/image"
-
-import { cn } from "@/lib/utils"
 
 /**
  * A screenshot in a dark frame.
