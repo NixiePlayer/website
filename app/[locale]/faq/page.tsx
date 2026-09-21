@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 
-import { alternates } from "@/i18n/metadata"
+import { pageMetadata } from "@/i18n/metadata"
 import { Link } from "@/i18n/navigation"
 import {
   EXTENSION_INSTALL_URL,
@@ -14,11 +14,10 @@ import {
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Faq")
-  return {
+  return pageMetadata("/faq", {
     title: "FAQ",
     description: t("metaDescription"),
-    alternates: await alternates("/faq"),
-  }
+  })
 }
 
 // Plain headings and paragraphs, all of it visible. An accordion would hide answers from readers

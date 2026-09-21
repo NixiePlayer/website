@@ -2,15 +2,14 @@ import type { Metadata } from "next"
 import { getTranslations } from "next-intl/server"
 
 import { RepoDoc } from "@/components/repo-doc"
-import { alternates } from "@/i18n/metadata"
+import { pageMetadata } from "@/i18n/metadata"
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Privacy")
-  return {
+  return pageMetadata("/privacy", {
     title: t("title"),
     description: t("metaDescription"),
-    alternates: await alternates("/privacy"),
-  }
+  })
 }
 
 export default async function Page() {

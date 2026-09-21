@@ -1,6 +1,6 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react"
 import type { Metadata } from "next"
-import { getMessages, getTranslations } from "next-intl/server"
+import { getLocale, getMessages, getTranslations } from "next-intl/server"
 
 import explore from "@/assets/explore.png"
 import home from "@/assets/home.png"
@@ -9,7 +9,7 @@ import { Download } from "@/components/download"
 import { LufsScale } from "@/components/lufs-scale"
 import { Shot } from "@/components/shot"
 import { ButtonLink } from "@/components/ui/button-link"
-import { alternates } from "@/i18n/metadata"
+import { absoluteUrl, pageMetadata } from "@/i18n/metadata"
 import { Link } from "@/i18n/navigation"
 import { getLatestRelease } from "@/lib/github"
 import {
@@ -47,15 +47,16 @@ const installLink = (chunks: React.ReactNode) => (
 )
 
 export async function generateMetadata(): Promise<Metadata> {
-  return { alternates: await alternates("/") }
+  return pageMetadata("/")
 }
 
 export default async function Page() {
-  const [release, t, tBuilds, messages] = await Promise.all([
+  const [release, t, tBuilds, messages, locale] = await Promise.all([
     getLatestRelease(),
     getTranslations("Home"),
     getTranslations("Builds"),
     getMessages(),
+    getLocale(),
   ])
   // Lists of plain sentences are read straight from the messages: they carry no arguments and no
   // markup, so there is nothing for the formatter to do.
@@ -65,19 +66,21 @@ export default async function Page() {
   // page renders, so a changed URL or version cannot leave the markup lying.
   // ponytail: no FAQPage on /faq. Google dropped those rich results for everyone except
   // government and health sites in 2023, so it would be markup nobody reads.
+  const url = (href: string) => absoluteUrl(href, locale)
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "Nixie",
-    url: SITE_URL,
+    url: url("/"),
+    inLanguage: locale,
     description: t("jsonLdDescription"),
     applicationCategory: "MultimediaApplication",
     applicationSubCategory: "Music player",
     operatingSystem: "macOS, Windows, Linux",
     softwareVersion: release?.version,
     downloadUrl: release?.applesilicon.url ?? RELEASES_URL,
-    releaseNotes: `${SITE_URL}/changelog`,
-    softwareHelp: `${SITE_URL}/faq`,
+    releaseNotes: url("/changelog"),
+    softwareHelp: url("/faq"),
     license: LICENSE_URL,
     isAccessibleForFree: true,
     screenshot: [home, lyrics, explore].map(

@@ -2,18 +2,17 @@ import { ArrowUpRight } from "lucide-react"
 import type { Metadata } from "next"
 import { getLocale, getTranslations } from "next-intl/server"
 
-import { alternates } from "@/i18n/metadata"
+import { pageMetadata } from "@/i18n/metadata"
 import { routing } from "@/i18n/routing"
 import { getReleases } from "@/lib/github"
 import { RELEASES_URL } from "@/lib/site"
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Changelog")
-  return {
+  return pageMetadata("/changelog", {
     title: t("title"),
     description: t("metaDescription"),
-    alternates: await alternates("/changelog"),
-  }
+  })
 }
 
 export default async function Page() {
